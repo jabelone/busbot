@@ -1,16 +1,43 @@
 'use strict';
 
 module.exports.hello = function(event, context, callback) {
+    let authToken = 'PvHX6ACWEXMnv5sO5rjYuBUtrRYrntWo';
 
-    console.log(event); // Contains incoming request data (e.g., query params, headers and more)
+    if (event['httpMethod'] == 'GET') {
+        if (event['queryStringParameters']['hub.verify_token'] == authToken) {
+            console.log("Error:");
+            console.log(event);
+            let response = {
+                statusCode: 200,
+                headers: {
+                    //"x-custom-header" : "My Header Value"
+                },
+                body: event['queryStringParameters']['hub.challenge']
+            };
+            callback(null, response);
+        }
 
-    const response = {
-        statusCode: 201,
-        headers: {
-            "x-custom-header" : "My Header Value"
-        },
-        body: JSON.stringify({ "message": "Hello World!" })
-    };
+        else {
+            let response = {
+                statusCode: 403,
+                headers: {
+                    //"x-custom-header" : "My Header Value"
+                },
+                body: "Rejected authentication token."
+            };
+            callback(null, response);
+        }
+    }
 
-    callback(null, response);
+
+    else {
+        let response = {
+            statusCode: 400,
+            headers: {
+                //"x-custom-header" : "My Header Value"
+            },
+            body: "Rejected authentication token."
+        };
+        callback(null, response);
+    }
 };

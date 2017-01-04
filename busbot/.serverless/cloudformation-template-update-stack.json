@@ -88,7 +88,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/busbot/dev/1483538293100-2017-01-04T13:58:13.100Z/busbot.zip"
+          "S3Key": "serverless/busbot/dev/1483543090641-2017-01-04T15:18:10.641Z/busbot.zip"
         },
         "FunctionName": "busbot-dev-hello",
         "Handler": "handler.hello",
@@ -107,14 +107,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "HelloLambdaVersionFSMia5LmbR9ziAgmaDOb8TGQjZe5NSOBDll1Q4yDfY": {
+    "HelloLambdaVersionTQtEyiMOnByl1GdaDA9R9zKqk9XsTCJQd1RNyPcZ0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "HelloLambdaFunction"
         },
-        "CodeSha256": "FSMia5LmbR9ziAgmaDOb8TGQjZe5NSOBD/ll1Q4yDfY="
+        "CodeSha256": "TQtEyiMOnByl1GdaDA9R9zKqk9/XsTCJQd+1RNyPcZ0="
       }
     }
   },
@@ -136,7 +136,7 @@
     "HelloLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HelloLambdaVersionFSMia5LmbR9ziAgmaDOb8TGQjZe5NSOBDll1Q4yDfY"
+        "Ref": "HelloLambdaVersionTQtEyiMOnByl1GdaDA9R9zKqk9XsTCJQd1RNyPcZ0"
       }
     }
   }
