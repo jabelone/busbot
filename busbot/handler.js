@@ -29,6 +29,16 @@ module.exports.hello = function(event, context, callback) {
         }
     }
 
+    if (event['httpMethod'] == 'POST') {
+            let response = {
+                statusCode: 200,
+                headers: {
+                    //"x-custom-header" : "My Header Value"
+                },
+            };
+            console.log(event['queryStringParameters']);
+            callback(null, response);
+    }
 
     else {
         let response = {
