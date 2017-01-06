@@ -1,0 +1,1 @@
+exports.pagetoken = 'lol'; //Enter your Facebook pages token

@@ -1,10 +1,12 @@
 'use strict';
+let creds = require('./credentials');
+//creds.pagetoken is your fb pages token
 
 module.exports.hello = function(event, context, callback) {
     let authToken = 'PvHX6ACWEXMnv5sO5rjYuBUtrRYrntWo';
 
-    if (event['httpMethod'] == 'GET') {
-        if (event['queryStringParameters']['hub.verify_token'] == authToken) {
+    if (event.httpMethod === 'GET') {
+        if (event.queryStringParameters['hub.verify_token'] === authToken) {
             console.log("Error:");
             console.log(event);
             let response = {
@@ -12,7 +14,7 @@ module.exports.hello = function(event, context, callback) {
                 headers: {
                     //"x-custom-header" : "My Header Value"
                 },
-                body: event['queryStringParameters']['hub.challenge']
+                body: event.queryStringParameters['hub.challenge']
             };
             callback(null, response);
         }
@@ -29,15 +31,18 @@ module.exports.hello = function(event, context, callback) {
         }
     }
 
-    if (event['httpMethod'] == 'POST') {
+    if (event.httpMethod === 'POST') {
+        if (event.queryStringParameters['hub.verify_token'] === authToken) {
             let response = {
                 statusCode: 200,
                 headers: {
+                    lel: creds.pagetoken
                     //"x-custom-header" : "My Header Value"
                 },
             };
-            console.log(event['queryStringParameters']);
+            console.log(event.queryStringParameters);
             callback(null, response);
+        }
     }
 
     else {
