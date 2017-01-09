@@ -53,3 +53,4 @@ jspm_packages
 .idea/
 busbot/.idea/
 busbot/node_modules/
+/busbot/credentials.js
