@@ -88,11 +88,11 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/busbot/dev/1483964438888-2017-01-09T12:20:38.888Z/busbot.zip"
+          "S3Key": "serverless/busbot/dev/1484839169473-2017-01-19T15:19:29.473Z/busbot.zip"
         },
         "FunctionName": "busbot-dev-hello",
         "Handler": "handler.hello",
-        "MemorySize": 1024,
+        "MemorySize": 128,
         "Role": {
           "Fn::GetAtt": [
             "IamRoleLambdaExecution",
@@ -100,21 +100,59 @@
           ]
         },
         "Runtime": "nodejs4.3",
-        "Timeout": 6
+        "Timeout": 5,
+        "Description": "Main handler for messenger bot"
       },
       "DependsOn": [
         "IamPolicyLambdaExecution",
         "IamRoleLambdaExecution"
       ]
     },
-    "HelloLambdaVersionnxdMHPpMXCKU0u0W50VokP9DFKXyqoWuJdR8hf4ttU": {
+    "HelloLambdaVersionqGmxBT5T3HxUefOn5ipFdMVuQxtpLA7fG6XyuOqyuQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "HelloLambdaFunction"
         },
-        "CodeSha256": "nxdMHPpMXCKU0u0W50VokP9DFKXyqoWuJdR8/hf4ttU="
+        "CodeSha256": "qGmxBT5T3Hx+UefOn5ipFdMVuQxtpLA7fG6XyuOqyuQ="
+      }
+    },
+    "SendLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/busbot/dev/1484839169473-2017-01-19T15:19:29.473Z/busbot.zip"
+        },
+        "FunctionName": "busbot-dev-send",
+        "Handler": "send.send",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs4.3",
+        "Timeout": 8,
+        "Description": "Send handler for messenger bot"
+      },
+      "DependsOn": [
+        "IamPolicyLambdaExecution",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "SendLambdaVersionqGmxBT5T3HxUefOn5ipFdMVuQxtpLA7fG6XyuOqyuQ": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "SendLambdaFunction"
+        },
+        "CodeSha256": "qGmxBT5T3Hx+UefOn5ipFdMVuQxtpLA7fG6XyuOqyuQ="
       }
     }
   },
@@ -136,7 +174,22 @@
     "HelloLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HelloLambdaVersionnxdMHPpMXCKU0u0W50VokP9DFKXyqoWuJdR8hf4ttU"
+        "Ref": "HelloLambdaVersionqGmxBT5T3HxUefOn5ipFdMVuQxtpLA7fG6XyuOqyuQ"
+      }
+    },
+    "SendLambdaFunctionArn": {
+      "Description": "Lambda function info",
+      "Value": {
+        "Fn::GetAtt": [
+          "SendLambdaFunction",
+          "Arn"
+        ]
+      }
+    },
+    "SendLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "SendLambdaVersionqGmxBT5T3HxUefOn5ipFdMVuQxtpLA7fG6XyuOqyuQ"
       }
     }
   }

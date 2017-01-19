@@ -1,7 +1,8 @@
 'use strict';
-module.exports.hello = function(event, context, callback) {
-    let send = require('./functions');
-    let creds = require('./credentials');
+module.exports.hello = function(event, context, finishedcallback) {
+    let send = require('./sendFunctions');
+    let user = require('./userFunctions');
+    let async = require('async');
 
     let authToken = 'PvHX6ACWEXMnv5sO5rjYuBUtrRYrntWo';
 
@@ -12,7 +13,7 @@ module.exports.hello = function(event, context, callback) {
                 headers: {},
                 body: event.queryStringParameters['hub.challenge']
             };
-            callback(null, response);
+            finishedcallback(null, response);
         }
 
         else {
@@ -20,7 +21,7 @@ module.exports.hello = function(event, context, callback) {
                 statusCode: 403,
                 body: "Rejected authentication token."
             };
-            callback(null, response);
+            finishedcallback(null, response);
         }
     }
 
@@ -31,12 +32,38 @@ module.exports.hello = function(event, context, callback) {
             body: "You're not Facebook! ",
         };
         console.log(event.body);
-        let userid = body.entry[0].messaging[0].sender.id;
-        send.read(userid).then( function (result) {
-            console.log(result);
-            callback(null, response);
+        let userDetails = {};
+        userDetails.id = body.entry[0].messaging[0].sender.id;
+
+        async.parallel([
+                function(callback) {
+                    send.read(userDetails.id).then( function (result) {
+                        console.log(result);
+                        callback(null, response);
+                    });
+                },
+                function(callback) {
+                    user.getBasicInfo(userDetails.id).then( function (result) {
+                        result = JSON.parse(result);
+                        userDetails.firstName = result.first_name;
+                        userDetails.lastName = result.last_name;
+                        userDetails.profilePic = result.profile_pic;
+                        userDetails.locale = result.locale;
+                        userDetails.timezone = result.timezone;
+                        userDetails.gender = result.gender;
+                        callback(null, response);
+                    });
+                }
+            ],
+            function(err, results) {
+            if (!err) {
+                let message = `${userDetails.firstName}, you sent me this: ${body.entry[0].messaging[0].message.text}`;
+                send.message(userDetails.id, message).then( function (result) {
+                    console.log(result);
+                    finishedcallback(null, response);
+                });
+            }
         });
-        send.message(userid, body.entry[0].messaging[0].message.text);
     }
 
     else {
@@ -44,6 +71,6 @@ module.exports.hello = function(event, context, callback) {
             statusCode: 400,
             body: "Rejected authentication token."
         };
-        callback(null, response);
+        finishedcallback(null, response);
     }
 };

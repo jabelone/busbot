@@ -14,7 +14,16 @@ let options = {
 
 let read = function (userid) {
     return new Promise(function (resolve, reject) {
-        options.json.recipient.id = userid;
+        let options = {
+            uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=' + creds.pagetoken,
+            method: 'POST',
+            json: {
+                "recipient":{
+                    "id": userid,
+                },
+                "sender_action":"mark_seen"
+            }
+        };
         request(options, function (error, response, body) {
             if (!error && response.statusCode === 200) {
                 console.log(body);

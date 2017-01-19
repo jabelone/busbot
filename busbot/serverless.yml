@@ -21,6 +21,8 @@ provider:
   name: aws
   runtime: nodejs4.3
   region: ap-southeast-2
+  memorySize: 128
+  timeout: 8
 
 # you can overwrite defaults here
 #  stage: dev
@@ -57,6 +59,17 @@ provider:
 functions:
   hello:
     handler: handler.hello
+    description: Main handler for messenger bot # optional, Description to publish to AWS
+    runtime: nodejs4.3 # optional overwrite, default is provider runtime
+    memorySize: 128 # optional, default is 1024
+    timeout: 5 # optional, default is 6
+
+  send:
+      handler: send.send
+      description: Send handler for messenger bot # optional, Description to publish to AWS
+      runtime: nodejs4.3 # optional overwrite, default is provider runtime
+      memorySize: 128 # optional, default is 1024
+      timeout: 8 # optional, default is 6
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
