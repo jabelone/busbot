@@ -1,1 +1,1 @@
-exports.pagetoken = 'EAAZAxrY36IasBAHYpsRawQbhLtUSjoG2kgnHxlcztI4f7hdNkBoV4wiKzr9uvX4mRjb19ezECFrUzjBFw5fOt7ZCJ08gOBOq7xLdhkI2XeGpEiz93Mm4vzuZBeWI2gQOdZAYwib9AWdUQTvdIpsXPgyAaGTZAuGXPHxeNinwrqwZDZD'; //Enter your Facebook pages token
+exports.pagetoken = ''; //Enter your Facebook pages token
